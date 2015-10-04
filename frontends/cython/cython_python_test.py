@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 ##########################################################################
-# frontends/cython/cython_test.pyx
+# frontends/cython/cython_python_test.py
 #
 # Part of Project Thrill.
 #
@@ -8,26 +9,14 @@
 # All rights reserved. Published under the BSD-2 license in the LICENSE file.
 ##########################################################################
 
-cimport thrill
 import thrill
 
-print("hello from cython")
-
-cdef thrill.MyClass* c = new thrill.MyClass(5)
-c.run()
-
-cdef size_t my_callback(size_t i, void* c):
-    print("Hello from callback %d" % i)
-
-c.set_callback(my_callback, NULL)
-c.run()
-
-del c
+print("hello from python")
 
 def my_pycallback(i):
     print("Hello from pycallback %d" % i)
 
-a = thrill.PyMyClass(7)
+a = thrill.PyMyClass(9)
 a.run()
 a.set_callback(my_pycallback)
 a = None

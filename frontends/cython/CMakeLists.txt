@@ -36,4 +36,12 @@ set_source_files_properties(
   cython_thrill.cxx
   PROPERTIES COMPILE_FLAGS "${NO_WARN}")
 
+# run python test
+add_test(
+  NAME cython_python_test
+  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/cython_python_test.py)
+
+set_tests_properties(cython_python_test PROPERTIES
+  ENVIRONMENT PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR})
+
 ################################################################################
