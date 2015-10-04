@@ -15,7 +15,7 @@ set_source_files_properties(
   PROPERTIES CYTHON_IS_CXX TRUE)
 
 cython_add_standalone_executable(cython_test MAIN_MODULE cython_test.pyx)
-#target_link_libraries(cython_test thrill ${ALL_LIBRARIES})
+target_link_libraries(cython_test thrill ${ALL_LIBRARIES})
 
 # silence warnings in cython generated code
 set_join(NO_WARN

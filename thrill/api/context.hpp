@@ -33,6 +33,30 @@
 #include <vector>
 
 namespace thrill {
+
+class MyClass
+{
+public:
+    MyClass(size_t num) {
+        std::cout << "constructed with " << num << std::endl;
+    }
+
+    ~MyClass() {
+        std::cout << "destroy" << std::endl;
+    }
+
+    size_t (* callback_)(size_t) = nullptr;
+
+    void set_callback(size_t (* callback)(size_t)) {
+        callback_ = callback;
+    }
+
+    void run() {
+        std::cout << "hello from thrill" << std::endl;
+        if (callback_) callback_(42);
+    }
+};
+
 namespace api {
 
 //! \addtogroup api Interface

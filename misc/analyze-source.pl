@@ -511,7 +511,9 @@ sub process_py {
 
     # check source header
     my $i = 0;
-    expect_re($path, $i, @data, "^#!/usr/bin/env python"); ++$i;
+    if ($path =~ /\.py$/) {
+        expect_re($path, $i, @data, "^#!/usr/bin/env python"); ++$i;
+    }
     expect($path, $i, @data, ('#'x74)."\n"); ++$i;
     expectr($path, $i, @data, "# $path\n", qr/^# /); ++$i;
     expect($path, $i, @data, "#\n"); ++$i;
@@ -738,7 +740,7 @@ foreach my $file (@filelist)
     elsif ($file =~ /\.p[lm]$/) {
         process_pl_cmake($file);
     }
-    elsif ($file =~ /\.py$/) {
+    elsif ($file =~ /\.(py|pyx|pxd)$/) {
         process_py($file);
     }
     elsif ($file =~ /\.(sh|awk)$/) {

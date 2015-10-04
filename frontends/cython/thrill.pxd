@@ -1,5 +1,5 @@
 ##########################################################################
-# frontends/cython/cython_test.pyx
+# frontends/cython/thrill.pxd
 #
 # Part of Project Thrill.
 #
@@ -8,19 +8,15 @@
 # All rights reserved. Published under the BSD-2 license in the LICENSE file.
 ##########################################################################
 
-cimport thrill
+from libcpp cimport bool
+from libcpp.string cimport string
+from libcpp.vector cimport vector
 
-print("hello from python")
-
-cdef thrill.MyClass* c = new thrill.MyClass(5)
-c.run()
-
-cdef size_t my_callback(size_t i):
-    print("Hello from callback %d" % i)
-
-c.set_callback(my_callback)
-c.run()
-
-del c
+cdef extern from "<thrill/api/context.hpp>" namespace "thrill":
+    ctypedef size_t (*callback)(size_t value);
+    cdef cppclass MyClass:
+        MyClass (size_t num);
+        void run();
+        void set_callback(callback cb);
 
 ##########################################################################
