@@ -45,15 +45,19 @@ public:
         std::cout << "destroy" << std::endl;
     }
 
-    size_t (* callback_)(size_t) = nullptr;
+    typedef size_t (* Callback)(size_t, void*);
 
-    void set_callback(size_t (* callback)(size_t)) {
+    Callback callback_ = nullptr;
+    void* cookie_;
+
+    void set_callback(Callback callback, void* cookie) {
         callback_ = callback;
+        cookie_ = cookie;
     }
 
     void run() {
         std::cout << "hello from thrill" << std::endl;
-        if (callback_) callback_(42);
+        if (callback_) callback_(42, cookie_);
     }
 };
 

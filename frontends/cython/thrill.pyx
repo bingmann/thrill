@@ -1,5 +1,5 @@
 ##########################################################################
-# frontends/cython/cython_test.pyx
+# frontends/cython/thrill.pyx
 #
 # Part of Project Thrill.
 #
@@ -9,27 +9,16 @@
 ##########################################################################
 
 cimport thrill
-import thrill
 
-print("hello from python")
-
-cdef thrill.MyClass* c = new thrill.MyClass(5)
-c.run()
-
-cdef size_t my_callback(size_t i, void* c):
-    print("Hello from callback %d" % i)
-
-c.set_callback(my_callback, NULL)
-c.run()
-
-del c
-
-def my_pycallback(i):
-    print("Hello from pycallback %d" % i)
-
-a = thrill.PyMyClass(7)
-a.run()
-a.set_callback(my_pycallback)
-a = None
+cdef class PyMyClass:
+    cdef thrill.MyClass *ptr
+    def __cinit__(self, size_t i):
+        self.ptr = new thrill.MyClass(i)
+    def __dealloc__(self):
+        del self.ptr
+    def run(self):
+        self.ptr.run()
+    def set_callback(self, cb):
+        self.ptr.set_callback(thrill.PyCallback, <void*>cb)
 
 ##########################################################################
