@@ -379,7 +379,7 @@ public:
     static std::vector<std::shared_ptr<PyContext> >
     ConstructLoopback(size_t host_count, size_t workers_per_host) {
         std::vector<std::unique_ptr<HostContext> > host_contexts
-            = HostContext::ConstructLoopback(host_count, workers_per_host);
+            = api::ConstructHostLoopback(host_count, workers_per_host);
 
         std::vector<std::shared_ptr<PyContext> > contexts;
 

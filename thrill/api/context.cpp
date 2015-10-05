@@ -153,10 +153,20 @@ RunLocalMock(size_t host_count, size_t workers_per_host,
 }
 
 std::vector<std::unique_ptr<HostContext> >
-HostContext::ConstructLoopback(size_t host_count, size_t workers_per_host) {
+ConstructHostLoopback(size_t host_count, size_t workers_per_host) {
 
     return ConstructLoopbackHostContexts<TestGroup>(
         host_count, workers_per_host);
+}
+
+std::vector<HostContext*>
+ConstructHostLoopbackPlain(size_t host_count, size_t workers_per_host) {
+    std::vector<std::unique_ptr<HostContext> > hctx =
+        ConstructHostLoopback(host_count, workers_per_host);
+    std::vector<HostContext*> hp(host_count);
+    for (size_t i = 0; i < host_count; ++i)
+        hp[i] = hctx[i].release();
+    return hp;
 }
 
 void RunLocalTests(const std::function<void(Context&)>& job_startpoint) {

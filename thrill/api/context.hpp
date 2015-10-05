@@ -34,6 +34,24 @@
 
 namespace thrill {
 
+#ifndef SWIG
+class PyCallback1
+{
+public:
+    typedef size_t (* Callback)(size_t, void*);
+
+    Callback callback_ = nullptr;
+    void* cookie_;
+
+    PyCallback1(Callback callback, void* cookie)
+        : callback_(callback),
+          cookie_(cookie) { }
+
+    size_t operator () (size_t value) const {
+        return callback_(value, cookie_);
+    }
+};
+
 class MyClass
 {
 public:
@@ -45,21 +63,29 @@ public:
         std::cout << "destroy" << std::endl;
     }
 
-    typedef size_t (* Callback)(size_t, void*);
+    using Callback = std::function<size_t(size_t)>;
 
-    Callback callback_ = nullptr;
-    void* cookie_;
+    Callback callback_;
 
-    void set_callback(Callback callback, void* cookie) {
+    template <typename Functor>
+    void set_callback_templ(Functor f) {
+        callback_ = f;
+    }
+
+    void set_callback_plain(Callback callback) {
         callback_ = callback;
-        cookie_ = cookie;
+    }
+
+    void set_callback(size_t (* callback)(size_t, void*), void* cookie) {
+        callback_ = PyCallback1(callback, cookie);
     }
 
     void run() {
         std::cout << "hello from thrill" << std::endl;
-        if (callback_) callback_(42, cookie_);
+        if (callback_) callback_(42);
     }
 };
+#endif
 
 namespace api {
 
@@ -95,10 +121,6 @@ public:
                             block_pool_, workers_per_host,
                             net_manager_.GetDataGroup())
     { }
-
-    //! Construct a number of mock hosts running in this process.
-    static std::vector<std::unique_ptr<HostContext> >
-    ConstructLoopback(size_t host_count, size_t workers_per_host);
 #endif
 
     //! create host log
@@ -374,6 +396,18 @@ public:
 
 //! \name Run Methods with Internal Networks for Testing
 //! \{
+
+#ifndef SWIG
+//! Construct a number of mock hosts running in this process.
+std::vector<std::unique_ptr<HostContext> >
+ConstructHostLoopback(size_t host_count, size_t workers_per_host);
+#endif
+
+//! Construct a number of mock hosts running in this process. Return plain
+//! pointers that must be deleted (good for frontend code which references
+//! counters differently).
+std::vector<HostContext*>
+ConstructHostLoopbackPlain(size_t host_count, size_t workers_per_host);
 
 /*!
  * Function to run a number of mock hosts as locally independent
