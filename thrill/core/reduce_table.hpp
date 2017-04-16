@@ -211,6 +211,11 @@ public:
         return num_items_;
     }
 
+    //! Returns the number of inserts performed since construction of the table.
+    size_t insert_counter() const {
+        return insert_counter_;
+    }
+
     //! Returns the total num of items in the table.
     size_t num_items_calc() const {
         size_t total_num_items = 0;
@@ -279,6 +284,7 @@ protected:
     //! Store the files for partitions.
     std::vector<data::File> partition_files_;
 
+
     //! \name Fixed Operational Parameters
     //! \{
 
@@ -309,6 +315,9 @@ protected:
 
     //! \name Current Statistical Parameters
     //! \{
+
+    //! Current number of insert operations performed since construction.
+    size_t insert_counter_ = 0;
 
     //! Current number of items.
     size_t num_items_ = 0;

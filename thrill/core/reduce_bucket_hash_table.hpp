@@ -256,6 +256,8 @@ public:
      */
     bool Insert(const TableItem& kv) {
 
+        ++insert_counter_;
+
         while (TLX_UNLIKELY(mem::memory_exceeded && num_items_ != 0))
             SpillAnyPartition();
 
@@ -618,6 +620,7 @@ private:
     using Super::num_partitions_;
     using Super::partition_files_;
     using Super::reduce;
+    using Super::insert_counter_;
 
     //! Storing the items.
     std::vector<BucketBlock*> buckets_;

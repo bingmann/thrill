@@ -266,6 +266,7 @@ public:
         DuplicateDetection dup_detect;
         max_hash_ = dup_detect.FindNonDuplicates(non_duplicates_,
                                                  hashes_,
+                                                 Super::table_.insert_counter(),
                                                  Super::table_.ctx(),
                                                  Super::table_.dia_id());
 

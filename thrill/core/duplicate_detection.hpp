@@ -17,6 +17,7 @@
 
 #include <thrill/api/context.hpp>
 #include <thrill/common/logger.hpp>
+#include <thrill/common/stats_timer.hpp>
 #include <thrill/core/delta_stream.hpp>
 #include <thrill/core/golomb_bit_stream.hpp>
 #include <thrill/core/multiway_merge.hpp>
@@ -150,12 +151,20 @@ public:
      */
     size_t FindNonDuplicates(std::vector<bool>& non_duplicates,
                              std::vector<size_t>& hashes,
+                             size_t num_inserts,
                              Context& context,
                              size_t dia_id) {
 
+
+        size_t local_impact = 0;
+
+        if (num_inserts)
+            local_impact = std::max(hashes.size() * hashes.size() / num_inserts,
+                                    hashes.size() / context.num_workers());
+
         // This bound could often be lowered when we have many duplicates.
         // This would however require a large amount of added communication.
-        size_t upper_bound_uniques = context.net.AllReduce(hashes.size());
+        size_t upper_bound_uniques = context.net.AllReduce(local_impact);
 
         // Golomb Parameters taken from original paper (Sanders, Schlag, Müller)
 

@@ -34,7 +34,7 @@ TEST(DuplicateDetection, AllDuplicatedList) {
 
             size_t max_hash =
                 duplicate_detection.FindNonDuplicates(
-                    non_duplicates, hashes, ctx, 0);
+                    non_duplicates, hashes, elements, ctx, 0);
 
             std::vector<bool> comparison;
             comparison.resize(max_hash, false);
@@ -87,7 +87,7 @@ TEST(DuplicateDetection, SomeDuplicatedElements) {
 
             size_t max_hash =
                 duplicate_detection.FindNonDuplicates(
-                    non_duplicates, hashes, ctx, 0);
+                    non_duplicates, hashes, hashes.size(), ctx, 0);
 
             std::vector<bool> comparison(max_hash, false);
 
@@ -162,7 +162,7 @@ TEST(DuplicateDetection, SomeDuplicatedElementsNonConsec) {
 
             size_t max_hash =
                 duplicate_detection.FindNonDuplicates(
-                    non_duplicates, hashes, ctx, 0);
+                    non_duplicates, hashes, hashes.size(), ctx, 0);
 
             std::vector<bool> comparison(max_hash, false);
 
@@ -216,7 +216,7 @@ TEST(DuplicateDetection, AllDuplicatedHash) {
 
             size_t max_hash =
                 duplicate_detection.FindNonDuplicates(
-                    non_duplicates, hashes, ctx, 0);
+                    non_duplicates, hashes, hashes.size(), ctx, 0);
 
             std::vector<bool> comparison;
             comparison.resize(max_hash, false);
