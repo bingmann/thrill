@@ -76,6 +76,8 @@ public:
     void Run(Context& ctx) const {
         ctx.enable_consume();
 
+        size_t seed = 123456;
+
         if (input_verbatim_) {
             // take path as verbatim text
             std::vector<uint8_t> input_vec(input_path_.begin(), input_path_.end());
@@ -100,7 +102,7 @@ public:
 
             // share prng in Generate (just random numbers anyway)
             std::default_random_engine prng(
-                std::random_device { } () + ctx.my_rank());
+                seed + ctx.my_rank());
 
             DIA<uint8_t> input_dia =
                 Generate(
@@ -121,7 +123,7 @@ public:
 
             // share prng in Generate (just random digits anyway)
             std::default_random_engine prng(
-                std::random_device { } () + ctx.my_rank());
+                seed + ctx.my_rank());
 
             DIA<uint8_t> input_dia =
                 Generate(
@@ -142,7 +144,7 @@ public:
 
             // share prng in Generate (just random digits anyway)
             std::default_random_engine prng(
-                std::random_device { } () + ctx.my_rank());
+                seed + ctx.my_rank());
 
             DIA<uint8_t> input_dia =
                 Generate(

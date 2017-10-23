@@ -708,8 +708,8 @@ private:
         context_.block_pool().AdviseFree(vec.size() * sizeof(ValueType));
 
         timer_sort_.Start();
-        sort_algorithm_(vec.begin(), vec.end(), compare_function_);
-        // common::qsort_two_pivots_yaroslavskiy(vec.begin(), vec.end(), compare_function_);
+        // sort_algorithm_(vec.begin(), vec.end(), compare_function_);
+        common::qsort_two_pivots_yaroslavskiy(vec.begin(), vec.end(), compare_function_);
         // common::qsort_three_pivots(vec.begin(), vec.end(), compare_function_);
         timer_sort_.Stop();
 

@@ -192,15 +192,15 @@ void qsort_two_pivots_yaroslavskiy(Iterator lo, Iterator hi, Compare cmp) {
 
     size_t n = hi - lo;
 
-    Iterator samples[7] = {
-        lo + n * 1 / 8, lo + n * 2 / 8, lo + n * 3 / 8,
-        lo + n * 4 / 8, lo + n * 5 / 8, lo + n * 6 / 8, lo + n * 7 / 8
+    Iterator samples[8] = {
+        lo + n * 1 / 9, lo + n * 2 / 9, lo + n * 3 / 9, lo + n * 4 / 9,
+        lo + n * 5 / 9, lo + n * 6 / 9, lo + n * 7 / 9, lo + n * 8 / 9
     };
 
-    qsort_local::sort_samples(samples, 7, cmp);
+    qsort_local::sort_samples(samples, 8, cmp);
 
     swap(*lo, *(samples[2]));
-    swap(*(hi - 1), *(samples[4]));
+    swap(*(hi - 1), *(samples[5]));
 
     const value_type p = *lo;
     const value_type q = *(hi - 1);
@@ -250,16 +250,18 @@ void qsort_three_pivots(Iterator left, Iterator right, Compare cmp) {
     if (n <= 32)
         return qsort_local::InsertionSort(left, right, cmp);
 
-    Iterator samples[7] = {
-        left + n * 1 / 8, left + n * 2 / 8, left + n * 3 / 8,
-        left + n * 4 / 8, left + n * 5 / 8, left + n * 6 / 8, left + n * 7 / 8
+    Iterator samples[11] = {
+        left + n * 1 / 12, left + n * 2 / 12, left + n * 3 / 12,
+        left + n * 4 / 12, left + n * 5 / 12, left + n * 6 / 12,
+        left + n * 7 / 12, left + n * 8 / 12, left + n * 9 / 12,
+        left + n * 10 / 12, left + n * 11 / 12
     };
 
-    qsort_local::sort_samples(samples, 7, cmp);
+    qsort_local::sort_samples(samples, 11, cmp);
 
-    swap(*left, *(samples[1]));
-    swap(*(left + 1), *(samples[3]));
-    swap(*(right - 1), *(samples[5]));
+    swap(*left, *(samples[2]));
+    swap(*(left + 1), *(samples[5]));
+    swap(*(right - 1), *(samples[8]));
 
     Iterator i = left + 2;
     Iterator j = i;
