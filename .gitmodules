@@ -16,3 +16,6 @@
 [submodule "extlib/foxxll"]
 	path = extlib/foxxll
 	url = https://github.com/stxxl/foxxll.git
+[submodule "frontends/python/pybind11"]
+	path = frontends/python/pybind11
+	url = https://github.com/pybind/pybind11.git

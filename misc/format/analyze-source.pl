@@ -747,6 +747,9 @@ foreach my $file (@filelist)
     elsif ($file =~ m!^extlib/!) {
         # skip external libraries
     }
+    elsif ($file =~ m!^frontends/python/pybind11/!) {
+        # skip external libraries
+    }
     elsif ($file =~ /\.(h|cpp|hpp|h\.in|dox)$/) {
         process_cpp($file);
     }
